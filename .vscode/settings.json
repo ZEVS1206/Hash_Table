@@ -1,8 +1,9 @@
 {
-    "C_Cpp.errorSquiggles": "disabled",
+    "C_Cpp.errorSquiggles": "enabled",
     "files.associations": {
         "array": "cpp",
         "string": "cpp",
         "string_view": "cpp"
-    }
+    },
+    "makefile.configureOnOpen": true
 }

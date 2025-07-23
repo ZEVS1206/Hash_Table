@@ -1,9 +1,0 @@
-digraph Tree {
-node [margin = "0.01"];
-rankdir = "TB";
-box0 [shape = record, label = "{<node_id>index = 0|<node_adr>address = 0x602000000010|<node_k>key = 0|<node_lad>list_address = 0x603000000070}}"];
-box1 [shape = record, label = "{<node_id>index = 1|<node_adr>address = 0x602000000030|<node_k>key = 0|<node_lad>list_address = 0x6030000000a0}}"];
-box2 [shape = record, label = "{<node_id>index = 2|<node_adr>address = 0x602000000050|<node_k>key = 2|<node_lad>list_address = 0x6030000000d0}}"];
-box0->box1 [color=red];
-box1->box2 [color=red];
-}

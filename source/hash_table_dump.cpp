@@ -10,6 +10,43 @@ static Errors create_nodes_with_table_elements_in_dump(struct Table *table, FILE
 static Errors create_command_for_console(const char *file_in_name, const char *file_out_name);
 static Errors create_connections_between_table_elements(struct Table *table, FILE *file_pointer);
 static Errors check_command(const char *command, size_t size);
+static Errors create_nodes_with_list_elements(struct List *list, FILE *file_pointer);
+static Errors create_connections_between_list_elements(struct List *list, FILE *file_pointer);
+
+static Errors create_nodes_with_list_elements(struct List *list, FILE *file_pointer)
+{
+    if (file_pointer == NULL)
+    {
+        return ERROR_OF_DUMP;
+    }
+    struct List *current = list;
+    while (current != NULL)
+    {
+        fprintf(file_pointer, "box%p "
+            "[shape = record,"
+            " label = \"{<node_adr>address = %p}|{<node_d>data = %s|<node_f>frequency = %lu}\"];\n",
+            current, current, current->data, current->frequency);
+        current = current->next_element;
+    }
+    return NO_ERRORS;
+}
+
+static Errors create_connections_between_list_elements(struct List *list, FILE *file_pointer)
+{
+    if (file_pointer == NULL)
+    {
+        return ERROR_OF_DUMP;
+    }
+    struct List *next = list->next_element;
+    struct List *current = list;
+    while (next != NULL)
+    {
+        fprintf(file_pointer, "box%p:<node_adr>->box%p:<node_adr> [color=green];\n", current, next);
+        next = next->next_element;
+        current = current->next_element;
+    }
+    return NO_ERRORS;
+}
 
 static Errors create_nodes_with_table_elements_in_dump(struct Table *table, FILE *file_pointer)
 {
@@ -21,16 +58,21 @@ static Errors create_nodes_with_table_elements_in_dump(struct Table *table, FILE
     {
         return ERROR_OF_DUMP;
     }
-    
+    Errors error = NO_ERRORS;
 
     for (size_t index = 0; index < table->size_of_table; index++)
     {
-        fprintf(file_pointer, "box%d "
+        fprintf(file_pointer, "box%lu "
             "[shape = record,"
-            " label = \"{<node_id>index = %d|<node_adr>address = %p|<node_k>key = %d|<node_lad>list_address = %p}}\"];\n",
+            " label = \"{<node_id>index = %lu|<node_adr>address = %p|<node_k>key = %d|<node_lad>list_address = %p}\"];\n",
             index, index, (table->hash_table)[index], ((table->hash_table)[index])->key, ((table->hash_table)[index])->list_element);
+        error = create_nodes_with_list_elements(((table->hash_table)[index])->list_element, file_pointer);
+        if (error != NO_ERRORS)
+        {
+            return error;
+        }
     }
-    return NO_ERRORS;
+    return error;
 }
 
 static Errors create_connections_between_table_elements(struct Table *table, FILE *file_pointer)
@@ -43,11 +85,23 @@ static Errors create_connections_between_table_elements(struct Table *table, FIL
     {
         return ERROR_OF_DUMP;
     }
+    Errors error = NO_ERRORS;
+    fprintf(file_pointer, "\nrankdir = \"LR\";\n");
     for (size_t index = 1; index < table->size_of_table; index++)
     {
-        fprintf(file_pointer, "box%d->box%d [color=red];\n", index - 1, index);
+        fprintf(file_pointer, "box%lu->box%lu [color=red];\n", index - 1, index);
+        fprintf(file_pointer, "box%lu:<node_lad>->box%p:<node_adr> [color=green];\n", index - 1, 
+            ((table->hash_table)[index - 1])->list_element);
+        error = create_connections_between_list_elements(((table->hash_table)[index])->list_element, file_pointer);
+        if (error != NO_ERRORS)
+        {
+            return error;
+        }
     }
-    return NO_ERRORS;
+    fprintf(file_pointer, "box%lu:<node_lad>->box%p:<node_adr> [color=green];\n", table->size_of_table - 1, 
+        ((table->hash_table)[table->size_of_table - 1])->list_element);
+    fprintf(file_pointer, "\nrankdir = \"TB\";\n");
+    return error;
 
 }
 
@@ -61,7 +115,7 @@ static Errors create_command_for_console(const char *file_in_name, const char *f
 
     char command_for_console[100] = "";
     snprintf(command_for_console, 100, "sudo dot -Tpng %s -o %s.png", file_in_name, file_out_name);
-    printf("command for console = %s\n", command_for_console);
+    //printf("command for console = %s\n", command_for_console);
     Errors error = check_command(command_for_console, 100);
     if (error != NO_ERRORS)
     {

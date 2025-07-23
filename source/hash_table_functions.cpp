@@ -11,6 +11,28 @@ static int hash_count(const char *data, size_t size_of_table)
     return (strlen(data) % size_of_table);
 }
 
+Errors write_data_to_hash_table(struct Table *table, struct Hash_data *hash_data)
+{
+    if (table == NULL || hash_data == NULL)
+    {
+        return ERROR_OF_ANALYZE_TEXT;
+    }
+    if (table->hash_table == NULL || hash_data->buffer_for_data == NULL)
+    {
+        return ERROR_OF_ANALYZE_TEXT;
+    }
+    for (size_t index = 0; index < hash_data->size_of_buffer_for_data; index++)
+    {
+        //printf("%s\n", (hash_data->buffer_for_data)[index]);
+        Errors error = hash_table_append(table, (hash_data->buffer_for_data)[index]);
+        if (error != NO_ERRORS)
+        {
+            return error;
+        }
+    }
+    return NO_ERRORS;
+}
+
 Errors hash_table_constructor(struct Table *table, size_t size_of_table)
 {
     table->size_of_table = size_of_table;
@@ -40,13 +62,13 @@ Errors hash_table_constructor(struct Table *table, size_t size_of_table)
     return NO_ERRORS;
 }
 
-Errors hash_table_destructor(struct Table *table)
+Errors hash_table_destructor(struct Table *table, struct Hash_data *hash_data)
 {
-    if (table == NULL)
+    if (table == NULL || hash_data == NULL)
     {
         return ERROR_OF_TABLE_DESTRUCTOR;
     }
-    if (table->hash_table == NULL)
+    if (table->hash_table == NULL || hash_data->buffer_for_data == NULL)
     {
         return ERROR_OF_TABLE_DESTRUCTOR;
     }
@@ -62,6 +84,12 @@ Errors hash_table_destructor(struct Table *table)
         (table->hash_table)[index] = NULL;
     }
     free(table->hash_table);
+    for (size_t index = 0; index < hash_data->size_of_buffer_for_data; index++)
+    {
+        free(hash_data->buffer_for_data[index]);
+    }
+    free(hash_data->buffer_for_data);
+    hash_data->buffer_for_data = NULL;
     table->hash_table = NULL;
     return NO_ERRORS;
 }
@@ -91,7 +119,12 @@ Errors hash_table_append(struct Table *table, const char *element)
     {
         if (strcasecmp(element, (((table->hash_table)[hash])->list_element)->data) != 0)
         {
-            list_append_collision(((table->hash_table)[hash])->list_element, element);
+            bool founded = false;
+            list_append_collision(((table->hash_table)[hash])->list_element, element, &founded, NULL);
+        }
+        else
+        {
+            ((((table->hash_table)[hash])->list_element)->frequency)++;
         }
     }
     return error;

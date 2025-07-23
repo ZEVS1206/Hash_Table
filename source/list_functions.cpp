@@ -48,8 +48,10 @@ Errors list_append(struct List *list, const char *element)
     {
         return ERROR_OF_APPEND_TO_LIST;
     }
+    //printf("element in list_append = %s\n", element);
     size_t len_of_element = strlen(element);
     list->data = (char *) calloc (len_of_element + 1, sizeof(char));
+    list->frequency = 1;
     if (list->data == NULL)
     {
         return ERROR_OF_APPEND_TO_LIST;
@@ -92,31 +94,49 @@ Errors list_print(struct List *list)
     struct List *current = list;
     while (current != NULL)
     {
-        printf("list data - %s\n", (current->data));
+        printf("list data - %s||frequency = %lu\n", (current->data), (current->frequency));
 
         current = current->next_element;
     }
     return NO_ERRORS;
 }
 
-void list_append_collision(struct List *list, const char *element)
+void list_append_collision(struct List *list, const char *element, bool *founded, struct List *previous)
 {
-    if (list->next_element != NULL)
+    if (*founded)
     {
-        list_append_collision(list->next_element, element);
-    }
-    Errors error = list_constructor(&(list->next_element));
-    if (error != NO_ERRORS)
-    {
-        printf("ERROR IN list_append_collision\n");
         return;
     }
-    (list->next_element)->previous_element = list;
-    error = list_append(list->next_element, element);
-    if (error != NO_ERRORS)
+    if (list != NULL && strcasecmp(list->data, element) == 0)
     {
-        printf("ERROR IN list_append_collision\n");
+        (list->frequency) += 1;
+        *founded = true;
         return;
+    }
+    if (list != NULL)
+    {
+        list_append_collision(list->next_element, element, founded, list);
+    }
+    if (!(*founded))
+    {
+        Errors error = list_constructor(&(list));
+        if (error != NO_ERRORS)
+        {
+            printf("ERROR IN list_append_collision\n");
+            return;
+        }
+        list->previous_element = previous;
+        if (previous != NULL)
+        {
+            previous->next_element = list;
+        }
+        error = list_append(list, element);
+        if (error != NO_ERRORS)
+        {
+            printf("ERROR IN list_append_collision\n");
+            return;
+        }
+        *founded = true;
     }
     return;   
 }
