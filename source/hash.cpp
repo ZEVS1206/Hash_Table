@@ -22,18 +22,21 @@ int main()
     //     printf("%s\n", (hash_data.buffer_for_data)[index]);
     // }
     Errors error = NO_ERRORS;
-    size_t size_of_table = 4;
+    size_t size_of_table = 50;
     error = hash_table_constructor(&table, size_of_table);
     if (error != NO_ERRORS)
     {
         fprintf(stderr, "error = %d\n", error);
         return 1;
     }
-    error = write_data_to_hash_table(&table, &hash_data);
-    if (error != NO_ERRORS)
+    for (size_t index = 0; index < 1000; index++)
     {
-        fprintf(stderr, "error = %d\n", error);
-        return 1;
+        error = write_data_to_hash_table(&table, &hash_data);
+        if (error != NO_ERRORS)
+        {
+            fprintf(stderr, "error = %d\n", error);
+            return 1;
+        }
     }
     // char str_1[] = "He";
     // char str_2[] = "st";
@@ -56,12 +59,12 @@ int main()
     //     fprintf(stderr, "error = %d\n", error);
     //     return 1;
     // }
-    error = graphic_dump(&table, "added_two_elements");
-    if (error != NO_ERRORS)
-    {
-        fprintf(stderr, "error = %d\n", error);
-        return 1;
-    }
+    // error = graphic_dump(&table, "added_elements");
+    // if (error != NO_ERRORS)
+    // {
+    //     fprintf(stderr, "error = %d\n", error);
+    //     return 1;
+    // }
     error = hash_table_destructor(&table, &hash_data);
     if (error != NO_ERRORS)
     {

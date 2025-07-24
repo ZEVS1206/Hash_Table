@@ -22,6 +22,14 @@ static Errors create_nodes_with_list_elements(struct List *list, FILE *file_poin
     struct List *current = list;
     while (current != NULL)
     {
+        if (current->frequency >= 1000)
+        {
+            current->frequency /= 1000;
+        }
+        else
+        {
+            current->frequency %= 1000;
+        }
         fprintf(file_pointer, "box%p "
             "[shape = record,"
             " label = \"{<node_adr>address = %p}|{<node_d>data = %s|<node_f>frequency = %lu}\"];\n",
