@@ -8,7 +8,8 @@ static int hash_count(const char *data, size_t size_of_table);
 
 static int hash_count(const char *data, size_t size_of_table)
 {
-    return (strlen(data) % size_of_table);
+    size_t position = strlen(data) % size_of_table;
+    return position;
 }
 
 Errors write_data_to_hash_table(struct Table *table, struct Hash_data *hash_data)
@@ -114,13 +115,15 @@ Errors hash_table_append(struct Table *table, const char *element)
             return ERROR_OF_APPEND_TO_TABLE;
         }
         ((table->hash_table)[hash])->key = hash;
+        ((table->hash_table)[hash])->count_of_list_elements += 1;
     }
     else
     {
-        if (strcasecmp(element, (((table->hash_table)[hash])->list_element)->data) != 0)
+        if (strcmp(element, (((table->hash_table)[hash])->list_element)->data) != 0)
         {
             bool founded = false;
             list_append_collision(((table->hash_table)[hash])->list_element, element, &founded, NULL);
+            ((table->hash_table)[hash])->count_of_list_elements += 1;
         }
         else
         {

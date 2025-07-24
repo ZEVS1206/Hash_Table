@@ -1,0 +1,13 @@
+without optimization:
+==158059== Events    : Ir
+==158059== Collected : 3623998607
+==158059== 
+==158059== I   refs:      3,623,998,607
+strcasecmp: 48.97
+
+first_optimization:
+When the programm get data from file, convert every symbol to lower register and change *strcasecmp* on *strcmp*.
+strcasecmp: 33.06
+list_append_collision: 55.91
+Coefficient of boost: 1.291
+Optimiztion: 29%.

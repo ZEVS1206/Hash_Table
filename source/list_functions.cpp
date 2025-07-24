@@ -107,7 +107,7 @@ void list_append_collision(struct List *list, const char *element, bool *founded
     {
         return;
     }
-    if (list != NULL && strcasecmp(list->data, element) == 0)
+    if (list != NULL && strcmp(list->data, element) == 0)
     {
         (list->frequency) += 1;
         *founded = true;

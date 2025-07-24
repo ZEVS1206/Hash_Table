@@ -27,13 +27,14 @@ struct List
     char* data;
     size_t frequency;
     struct List *next_element;
-    struct List *previous_element; 
+    struct List *previous_element;
 };
 
 struct Hash_table
 {
     int key;
     struct List *list_element;
+    size_t count_of_list_elements;
 };
 
 struct Table

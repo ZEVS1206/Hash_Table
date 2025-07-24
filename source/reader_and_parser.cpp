@@ -66,7 +66,7 @@ static Errors_of_reader process_file_for_data(char *buffer, size_t size_of_file,
         size_t i = 0;
         while (id < size_of_file && isalnum(buffer[id]))
         {
-            str[i] = buffer[id];
+            str[i] = tolower(buffer[id]);
             i++;
             id++;
         }

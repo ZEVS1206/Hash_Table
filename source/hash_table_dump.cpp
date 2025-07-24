@@ -70,10 +70,18 @@ static Errors create_nodes_with_table_elements_in_dump(struct Table *table, FILE
 
     for (size_t index = 0; index < table->size_of_table; index++)
     {
+        if (((table->hash_table)[index])->count_of_list_elements >= 1000)
+        {
+            ((table->hash_table)[index])->count_of_list_elements /= 1000;
+        }
+        else
+        {
+            ((table->hash_table)[index])->count_of_list_elements %= 1000;
+        }
         fprintf(file_pointer, "box%lu "
             "[shape = record,"
-            " label = \"{<node_id>index = %lu|<node_adr>address = %p|<node_k>key = %d|<node_lad>list_address = %p}\"];\n",
-            index, index, (table->hash_table)[index], ((table->hash_table)[index])->key, ((table->hash_table)[index])->list_element);
+            " label = \"{<node_id>index = %lu|<node_adr>address = %p|<node_k>key = %d|<node_c>quantity = %lu|<node_lad>list_address = %p}\"];\n",
+            index, index, (table->hash_table)[index], ((table->hash_table)[index])->key, ((table->hash_table)[index])->count_of_list_elements, ((table->hash_table)[index])->list_element);
         error = create_nodes_with_list_elements(((table->hash_table)[index])->list_element, file_pointer);
         if (error != NO_ERRORS)
         {
