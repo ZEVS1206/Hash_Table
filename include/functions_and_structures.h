@@ -44,6 +44,7 @@ struct Table
 };
 
 
+extern "C" int my_strcasecmp(const char *str1, const char *str2);
 
 Errors hash_table_constructor(struct Table *table, size_t size_of_table);
 Errors hash_table_destructor(struct Table *table, struct Hash_data *hash_data);
