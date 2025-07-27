@@ -101,70 +101,23 @@ Errors list_print(struct List *list)
     return NO_ERRORS;
 }
 
-void list_append_collision(struct List *list, const char *element, bool *founded, struct List *previous)
-{
-    if (*founded)
-    {
-        return;
-    }
-    if (list != NULL && strcasecmp(list->data, element) == 0)
-    {
-        (list->frequency) += 1;
-        *founded = true;
-        return;
-    }
-    
-    if (list != NULL)
-    {
-        list_append_collision(list->next_element, element, founded, list);
-    }
-    if (!(*founded))
-    {
-        Errors error = list_constructor(&(list));
-        if (error != NO_ERRORS)
-        {
-            printf("ERROR IN list_append_collision\n");
-            return;
-        }
-        list->previous_element = previous;
-        if (previous != NULL)
-        {
-            previous->next_element = list;
-        }
-        error = list_append(list, element);
-        if (error != NO_ERRORS)
-        {
-            printf("ERROR IN list_append_collision\n");
-            return;
-        }
-        *founded = true;
-    }
-    return;   
-}
-
 // void list_append_collision(struct List *list, const char *element, bool *founded, struct List *previous)
 // {
 //     if (*founded)
 //     {
 //         return;
 //     }
-//     while (list != NULL)
+//     if (list != NULL && strcasecmp(list->data, element) == 0)
 //     {
-//         int verdict = strcasecmp(list->data, element);
-//         if (verdict == 0)
-//         {
-//             (list->frequency) += 1;
-//             *founded = true;
-//             return;
-//         }
-//         previous = list;
-//         list = list->next_element;
+//         (list->frequency) += 1;
+//         *founded = true;
+//         return;
 //     }
     
-//     // if (list != NULL)
-//     // {
-//     //     list_append_collision(list->next_element, element, founded, list);
-//     // }
+//     if (list != NULL)
+//     {
+//         list_append_collision(list->next_element, element, founded, list);
+//     }
 //     if (!(*founded))
 //     {
 //         Errors error = list_constructor(&(list));
@@ -188,3 +141,50 @@ void list_append_collision(struct List *list, const char *element, bool *founded
 //     }
 //     return;   
 // }
+
+void list_append_collision(struct List *list, const char *element, bool *founded, struct List *previous)
+{
+    if (*founded)
+    {
+        return;
+    }
+    while (list != NULL)
+    {
+        int verdict = strcasecmp(list->data, element);
+        if (verdict == 0)
+        {
+            (list->frequency) += 1;
+            *founded = true;
+            return;
+        }
+        previous = list;
+        list = list->next_element;
+    }
+    
+    // if (list != NULL)
+    // {
+    //     list_append_collision(list->next_element, element, founded, list);
+    // }
+    if (!(*founded))
+    {
+        Errors error = list_constructor(&(list));
+        if (error != NO_ERRORS)
+        {
+            printf("ERROR IN list_append_collision\n");
+            return;
+        }
+        list->previous_element = previous;
+        if (previous != NULL)
+        {
+            previous->next_element = list;
+        }
+        error = list_append(list, element);
+        if (error != NO_ERRORS)
+        {
+            printf("ERROR IN list_append_collision\n");
+            return;
+        }
+        *founded = true;
+    }
+    return;   
+}
