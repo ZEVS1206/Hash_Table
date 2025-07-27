@@ -16,3 +16,14 @@ strcasecmp: 64.08
 list_append_collision: 27.21
 Coefficient of boost: 1.32
 Optimiztion: 32%.
+
+second_optimization:
+==95723== Events    : Ir
+==95723== Collected : 2058163198
+==95723== 
+==95723== I   refs:      2,058,163,198
+Added custom function strcasecmp on assembler.
+custom_strcasecmp: 53.53
+list_append_collision: 34.65
+Coefficient of boost: 1.34
+Optimiztion: 34%.

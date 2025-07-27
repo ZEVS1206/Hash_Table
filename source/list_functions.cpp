@@ -150,7 +150,7 @@ void list_append_collision(struct List *list, const char *element, bool *founded
     }
     while (list != NULL)
     {
-        int verdict = strcasecmp(list->data, element);
+        int verdict = my_strcasecmp(list->data, element);
         if (verdict == 0)
         {
             (list->frequency) += 1;
