@@ -1,29 +1,6 @@
-without optimization:
-==85969== Events    : Ir
-==85969== Collected : 3654317865
-==85969== 
-==85969== I   refs:      3,654,317,865
-strcasecmp: 48.57
-list_append_collision: 42.96
-
-first_optimization:
-==88683== Events    : Ir
-==88683== Collected : 2769412509
-==88683== 
-==88683== I   refs:      2,769,412,509
-Change resucrsion on cycle while.
-strcasecmp: 64.08
-list_append_collision: 27.21
-Coefficient of boost: 1.32
-Optimiztion: 32%.
-
-second_optimization:
-==95723== Events    : Ir
-==95723== Collected : 2058163198
-==95723== 
-==95723== I   refs:      2,058,163,198
-Added custom function strcasecmp on assembler.
-custom_strcasecmp: 53.53
-list_append_collision: 34.65
-Coefficient of boost: 1.34
-Optimiztion: 34%.
+==173451== Events    : Ir
+==173451== Collected : 3699589462
+==173451== 
+==173451== I   refs:      3,699,589,462
+strcasecmp: 47.97
+list_append_collision: 43.53

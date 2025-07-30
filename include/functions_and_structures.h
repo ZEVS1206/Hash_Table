@@ -45,17 +45,19 @@ struct Table
 
 
 extern "C" int my_strcasecmp(const char *str1, const char *str2);
+extern "C" int my_strlen(const char *str);
 
 Errors hash_table_constructor(struct Table *table, size_t size_of_table);
 Errors hash_table_destructor(struct Table *table, struct Hash_data *hash_data);
 Errors hash_table_append(struct Table *table, const char *element);
 Errors hash_table_print(struct Table *table);
 Errors write_data_to_hash_table(struct Table *table, struct Hash_data *hash_data);
+int my_two_strcasecmp(const char *str1, const char *str2);
 
 Errors list_constructor(struct List **list);
 Errors list_destructor(struct List *list);
 Errors list_append(struct List *list, const char *element);
-void list_append_collision(struct List *list, const char *element, bool *founded, struct List *previous);
+void list_append_collision(struct List *list, const char *element, bool *founded, struct List *previous, int hash);
 Errors list_delete(struct List *list);
 Errors list_print(struct List *list);
 
