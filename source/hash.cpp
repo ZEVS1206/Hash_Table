@@ -6,7 +6,7 @@
 #include "hash_table_dump.h"
 #include "reader_and_parser.h"
 
-int main()
+int main(int argc, char *argv[])
 {
     struct Table table = {0};
     struct Hash_data hash_data = {0};
@@ -59,12 +59,21 @@ int main()
     //     fprintf(stderr, "error = %d\n", error);
     //     return 1;
     // }
-    // error = graphic_dump(&table, "added_elements");
-    // if (error != NO_ERRORS)
-    // {
-    //     fprintf(stderr, "error = %d\n", error);
-    //     return 1;
-    // }
+    if (argc < 2)
+    {
+        fprintf(stderr, "Error! There is no flag\n");
+        return 1;
+    }
+    char *flag = argv[1];
+    if (flag[1] == 'y')
+    {
+        error = graphic_dump(&table, "added_elements");
+        if (error != NO_ERRORS)
+        {
+            fprintf(stderr, "error = %d\n", error);
+            return 1;
+        }
+    }
     error = hash_table_destructor(&table, &hash_data);
     if (error != NO_ERRORS)
     {

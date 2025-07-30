@@ -14,6 +14,7 @@ BUILD_DIR = build
 DUMP_DIR = dump
 HEADERS_DIR = include
 ASM_DIR = asm
+flag ?= -n
 
 INCLUDE= -I include
 CFLAGS+=$(INCLUDE)
@@ -23,8 +24,8 @@ SOURCES=$(wildcard $(SOURCE_DIR)/*.cpp)
 ASM_SOURCES=$(wildcard $(ASM_DIR)/*.asm)
 OBJECTS=$(patsubst $(SOURCE_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SOURCES))
 ASM_OBJECTS=$(patsubst $(ASM_DIR)/%.asm,$(BUILD_DIR)/%.o,$(ASM_SOURCES))
-EXEC_NAME := hash_table.exe
-PROFILER_OUT_NAME = callgrind_without_optimization.out
+EXEC_NAME := hash_table.exe 
+PROFILER_OUT_NAME = callgrind.out
 
 .PHONY: clean all run profile_build callgrind asm_debug
 
@@ -49,7 +50,7 @@ clean:
 	rm -rf $(PROFILER_OUT_NAME)
 
 run:
-	$(BUILD_DIR)/$(EXEC_NAME)
+	$(BUILD_DIR)/$(EXEC_NAME) $(flag)
 
 profile_build:
 	$(CC) $(PROFILE_CFLAGS) $(INCLUDE) $(SOURCES) $(ASM_OBJECTS) -o $(BUILD_DIR)/$(EXEC_NAME)_profile -no-pie
