@@ -128,7 +128,7 @@ void list_append_collision(struct List *list, const char *element, bool *founded
         }
         else
         {
-            verdict = strcasecmp(list->data, element);
+            verdict = my_two_strcasecmp(list->data, element);
         }
         if (verdict == 0)
         {

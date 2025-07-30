@@ -17,7 +17,7 @@ Coefficient of optimization: 1.297
 Optimization: 30%
 
 second_optimization:
-Created custom function strcasecmp on assembler x86_64(Intel). Also added different cases for processing strings.
+Created custom function my_strcasecmp on assembler x86_64(Intel). Also added different cases for processing strings.
 ==181044== Events    : Ir
 ==181044== Collected : 2579676484
 ==181044== 
@@ -27,3 +27,15 @@ strcasecmp: 29.24
 my_strcasecmp: 24.12
 Coefficient of optimization: 1.105
 Optimization: 11%
+
+third_optimization:
+Created custom function my_two_strcasecmp on included assembler x86_64(AT&T) and change it with strcasecmp.
+==190184== Events    : Ir
+==190184== Collected : 2466413935
+==190184== 
+==190184== I   refs:      2,466,413,935
+list_append_collision: 38.05
+my_two_strcasecmp: 26.72
+my_strcasecmp: 25.23
+Coefficient of optimization: 1.045
+Optimization: 5%
