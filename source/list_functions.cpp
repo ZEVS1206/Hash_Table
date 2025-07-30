@@ -112,34 +112,7 @@ void list_append_collision(struct List *list, const char *element, bool *founded
     {
         return;
     }
-    // while (list != NULL)
-    // {
-    //     // int verdict = strcasecmp(list->data, element);
-    //     // if (verdict == 0)
-    //     // {
-    //     //     (list->frequency) += 1;
-    //     //     *founded = true;
-    //     //     return;
-    //     // }
-    //     int verdict = -1;
-    //     if (hash % 2 == 0)
-    //     {
-    //         verdict = my_strcasecmp(list->data, element);
-    //     }
-    //     else
-    //     {
-    //         verdict = my_two_strcasecmp(list->data, element);
-    //     }
-    //     if (verdict == 0)
-    //     {
-    //         (list->frequency) += 1;
-    //         *founded = true;
-    //         return;
-    //     }
-    //     previous = list;
-    //     list = list->next_element;
-    // }
-    if (list != NULL)
+    while (list != NULL)
     {
         int verdict = strcasecmp(list->data, element);
         if (verdict == 0)
@@ -148,8 +121,35 @@ void list_append_collision(struct List *list, const char *element, bool *founded
             *founded = true;
             return;
         }
-        list_append_collision(list->next_element, element, founded, list, hash);
+        // int verdict = -1;
+        // if (hash % 2 == 0)
+        // {
+        //     verdict = my_strcasecmp(list->data, element);
+        // }
+        // else
+        // {
+        //     verdict = my_two_strcasecmp(list->data, element);
+        // }
+        if (verdict == 0)
+        {
+            (list->frequency) += 1;
+            *founded = true;
+            return;
+        }
+        previous = list;
+        list = list->next_element;
     }
+    // if (list != NULL)
+    // {
+    //     int verdict = strcasecmp(list->data, element);
+    //     if (verdict == 0)
+    //     {
+    //         (list->frequency) += 1;
+    //         *founded = true;
+    //         return;
+    //     }
+    //     list_append_collision(list->next_element, element, founded, list, hash);
+    // }
     if (!(*founded))
     {
         Errors error = list_constructor(&(list));

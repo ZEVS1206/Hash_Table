@@ -4,3 +4,14 @@
 ==173451== I   refs:      3,699,589,462
 strcasecmp: 47.97
 list_append_collision: 43.53
+
+first_optimization:
+Change recursion on the cycle while.
+==178929== Events    : Ir
+==178929== Collected : 2851638462
+==178929== 
+==178929== I   refs:      2,851,638,462
+strcasecmp: 62.24
+list_append_collision: 29.19
+Coefficient of optimization: 1.297
+Optimization: 30%
