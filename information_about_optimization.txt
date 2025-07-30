@@ -15,3 +15,15 @@ strcasecmp: 62.24
 list_append_collision: 29.19
 Coefficient of optimization: 1.297
 Optimization: 30%
+
+second_optimization:
+Created custom function strcasecmp on assembler x86_64(Intel). Also added different cases for processing strings.
+==181044== Events    : Ir
+==181044== Collected : 2579676484
+==181044== 
+==181044== I   refs:      2,579,676,484
+list_append_collision: 37.08
+strcasecmp: 29.24
+my_strcasecmp: 24.12
+Coefficient of optimization: 1.105
+Optimization: 11%

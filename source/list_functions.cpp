@@ -114,22 +114,22 @@ void list_append_collision(struct List *list, const char *element, bool *founded
     }
     while (list != NULL)
     {
-        int verdict = strcasecmp(list->data, element);
-        if (verdict == 0)
+        // int verdict = strcasecmp(list->data, element);
+        // if (verdict == 0)
+        // {
+        //     (list->frequency) += 1;
+        //     *founded = true;
+        //     return;
+        // }
+        int verdict = -1;
+        if (hash % 2 == 0)
         {
-            (list->frequency) += 1;
-            *founded = true;
-            return;
+            verdict = my_strcasecmp(list->data, element);
         }
-        // int verdict = -1;
-        // if (hash % 2 == 0)
-        // {
-        //     verdict = my_strcasecmp(list->data, element);
-        // }
-        // else
-        // {
-        //     verdict = my_two_strcasecmp(list->data, element);
-        // }
+        else
+        {
+            verdict = strcasecmp(list->data, element);
+        }
         if (verdict == 0)
         {
             (list->frequency) += 1;

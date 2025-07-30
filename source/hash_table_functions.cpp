@@ -171,7 +171,7 @@ Errors hash_table_append(struct Table *table, const char *element)
     }
     else
     {
-        if (strcasecmp(element, (((table->hash_table)[hash])->list_element)->data) != 0)
+        if (my_strcasecmp(element, (((table->hash_table)[hash])->list_element)->data) != 0)
         {
             bool founded = false;
             list_append_collision(((table->hash_table)[hash])->list_element, element, &founded, NULL, hash);
